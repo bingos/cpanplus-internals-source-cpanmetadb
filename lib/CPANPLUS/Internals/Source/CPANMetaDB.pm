@@ -181,7 +181,7 @@ CPANPLUS::Internals::Source::CPANMetaDB - CPAN Meta DB source implementation
 
 CPANPLUS::Internals::Source::CPANMetaDB is a L<CPANPLUS> source implementation.
 
-It is highly experimental.
+It is deadly experimental.
 
 Usually L<CPANPLUS> retrieves the CPAN index files, extracts them and builds
 an in-memory index of every module listed on CPAN. As you can imagine, this is
@@ -189,7 +189,7 @@ quite memory intensive.
 
 This source implementation does things slightly different.
 
-Instead of building an in-memory index, it queries an L<http://cpanmetadb.appspot.com/> 
+Instead of building an in-memory index, it queries the L<http://cpanmetadb.appspot.com/> 
 website for module/distribution information as and when it is required
 by L<CPANPLUS>.
 
@@ -212,6 +212,18 @@ I have included two scripts in the C<examples> directory of this distribution th
 may be of use. C<installer.pl> does installation of modules and C<updater.pl> will
 find out of date modules and prompt to update them.
 
+The CPAN Meta DB does not index authors. This means that this source engine has to cheat
+by populating the C<author_tree> with L<CPANPLUS::Module::Author::Fake> objects. The only
+thing guaranteed to be accurate is the CPAN ID of authors. Looking up a module in the
+C<module_tree> will trigger a query to the CPAN Meta DB site, from which an author object
+will be created.
+
+You cannot currently query an author. Because of the implementation you will get back a
+L<CPANPLUS::Module::Author::Fake> object, but the source engine just assumes what you pass in
+as CPAN ID is valid. 
+
+If this is a problem have a look at L<CPANPLUS::Internals::Source::CPANIDX> instead.
+
 =head1 AUTHOR
 
 Chris C<BinGOs> Williams <chris@bingosnet.co.uk>
@@ -233,5 +245,7 @@ L<CPANPLUS>
 L<CPANPLUS::Internals::Source>
 
 L<http://cpanmetadb.appspot.com/>
+
+L<CPANPLUS::Internals::Source::CPANIDX>
 
 =cut
