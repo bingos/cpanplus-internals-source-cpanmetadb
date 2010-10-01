@@ -14,7 +14,7 @@ use Params::Check               qw[check];
 use Module::Load::Conditional   qw[can_load];
 use Locale::Maketext::Simple    Class => 'CPANPLUS', Style => 'gettext';
 
-use CPANPLUS::Internals::Source::CPANIDX::HTTP;
+use CPANPLUS::Internals::Source::CPANMetaDB::HTTP;
 use Parse::CPAN::Meta;
 
 require Tie::Hash;
@@ -55,53 +55,43 @@ sub FETCH {
         return $obj;
     }
     
-    my $url = $self->{idx} . "/v1.0/package/" . $key;
-    my $str;
+    my $href;
 
-    my $http = CPANPLUS::Internals::Source::CPANMetaDB::HTTP->new();
-
-    my $status = $http->request( $url ) or return;
-    return unless $status eq '200';
-    return unless $str = $http->body;
-
-    my $res;
-    eval { $res = Parse::CPAN::Meta::Load( $str ); };
-    return unless $res;
-
-    my $href = $res->[0];
-    
-    ### no results?
-    return unless keys %$href;
-    
-    ### expand author if needed
-    ### XXX no longer generic :(
     if( $table eq 'module' ) {
-        $href->{author} = delete $href->{cpan_id};
-        $href->{module} = delete $href->{mod_name};
-        $href->{version} = delete $href->{mod_vers};
-        my ($author, $package) = $href->{dist_file} =~
+        my $url = $self->{idx} . "/v1.0/package/" . $key;
+        my $str;
+
+        my $http = CPANPLUS::Internals::Source::CPANMetaDB::HTTP->new();
+
+        my $status = $http->request( $url ) or return;
+        return unless $status eq '200';
+        return unless $str = $http->body;
+
+        eval { $href = Parse::CPAN::Meta::Load( $str ); };
+        return unless $href and keys %$href;
+
+        $href->{module} = $key;
+        my ($author, $package) = $href->{distfile} =~
                 m|  (?:[A-Z\d-]/)?
                     (?:[A-Z\d-]{2}/)?
                     ([A-Z\d-]+) (?:/[\S]+)?/
                     ([^/]+)$
                 |xsg;
-
+        $href->{author} = $author;
         ### remove file name from the path
-        $href->{dist_file} =~ s|/[^/]+$||;
-        $href->{path} = join '/', 'authors/id', delete $href->{dist_file};
+        $href->{distfile} =~ s|/[^/]+$||;
+        $href->{path} = join '/', 'authors/id', delete $href->{distfile};
         $href->{package} = $package;
         $href->{comment} = $href->{description} = $href->{dslip} = $href->{mtime} = '';
-        delete $href->{$_} for qw(dist_vers dist_name);
         $href->{author} = $cb->author_tree( $href->{author} ) or return;
     }
     else {
-        $href->{author} = delete $href->{fullname};
-        $href->{cpanid} = delete $href->{cpan_id};
+        $href->{cpanid} = $key;
     }
 
     my $class = {
         module  => 'CPANPLUS::Module',
-        author  => 'CPANPLUS::Module::Author',
+        author  => 'CPANPLUS::Module::Author::Fake',
     }->{ $table };
 
     my $obj = $self->{store}->{$key} = $class->new( %$href, _id => $cb->_id );   

@@ -39,7 +39,7 @@ $VERSION = '0.02';
 
         ### set up the author tree
         {   my %at;
-            tie %at, 'CPANPLUS::Internals::Source::CPANIDX::Tie',
+            tie %at, 'CPANPLUS::Internals::Source::CPANMetaDB::Tie',
                 idx => $cpanmetadb, table => 'author', 
                 key => 'cpanid',            cb => $self;
                 
@@ -48,7 +48,7 @@ $VERSION = '0.02';
 
         ### set up the module tree
         {   my %mt;
-            tie %mt, 'CPANPLUS::Internals::Source::CPANIDX::Tie',
+            tie %mt, 'CPANPLUS::Internals::Source::CPANMetaDB::Tie',
                 idx => $cpanmetadb, table => 'module', 
                 key => 'module',            cb => $self;
 
