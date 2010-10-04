@@ -750,6 +750,10 @@ sub upper
   }
 }
 
+1;
+
+=pod
+
 =begin Pod::Coverage
 
        DEBUG
@@ -765,11 +769,6 @@ sub upper
        upper
 
 =end Pod::Coverage
-
-1;
-
-
-=pod
 
 =head1 SYNOPSIS
 
@@ -1043,7 +1042,7 @@ setting.  Usual choices are GET, POST, PUT, HEAD
     when transferring files.  HTTP/1.1 mode is now disabled by
     default.
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Roy Hooper <rhooper@thetoybox.org>
 
@@ -1052,7 +1051,7 @@ Roy Hooper <rhooper@thetoybox.org>
 L<LWP>
 RFC 2068 - HTTP/1.1 -http://www.w3.org/
 
-=head1 COPYRIGHT
+=head1 COPYRIGHT AND LICENSE
 
 Copyright (c) 2000-2002 Roy Hooper.  All rights reserved.
 
