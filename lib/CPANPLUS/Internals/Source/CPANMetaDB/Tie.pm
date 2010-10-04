@@ -1,5 +1,7 @@
 package CPANPLUS::Internals::Source::CPANMetaDB::Tie;
 
+#ABSTRACT: A tie for the CPAN Meta DB source engine
+
 use strict;
 use warnings;
 
@@ -18,10 +20,8 @@ use CPANPLUS::Internals::Source::CPANMetaDB::HTTP;
 use Parse::CPAN::Meta;
 
 require Tie::Hash;
-use vars qw[@ISA $VERSION];
+use vars qw[@ISA];
 push @ISA, 'Tie::StdHash';
-
-$VERSION = '0.02';
 
 sub TIEHASH {
     my $class = shift;
@@ -161,29 +161,13 @@ sub CLEAR    {  }
 
 qq[Tie your mother down]
 
-__END__
-
-=head1 NAME
-
-CPANPLUS::Internals::Source::CPANMetaDB::Tie - A tie for the CPAN Meta DB source engine
+=pod
 
 =head1 DESCRIPTION
 
 CPANPLUS::Internals::Source::CPANMetaDB::Tie is a tie for L<CPANPLUS::Internals::Source::CPANMetaDB>.
 
 It has no user serviceable parts.
-
-=head1 AUTHOR
-
-Chris C<BinGOs> Williams <chris@bingosnet.co.uk>
-
-Jos Boumans <kane@cpan.org>
-
-=head1 LICENSE
-
-Copyright E<copy> Chris Williams and Jos Boumans
-
-This module may be used, modified, and distributed under the same terms as Perl itself. Please see the license that came with your Perl distribution for details.
 
 =head1 SEE ALSO
 

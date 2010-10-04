@@ -63,7 +63,7 @@ foreach my $module ( sort keys %installed ) {
 }
 
 $conf->set_conf( no_update => '1' );
-$conf->set_conf( source_engine => 'CPANPLUS::Internals::Source::CPANIDX' );
+$conf->set_conf( source_engine => 'CPANPLUS::Internals::Source::CPANMetaDB' );
 $conf->set_conf( 'prereqs' => 1 );
 $conf->set_conf( dist_type => 'CPANPLUS::Dist::YACSmoke' )
   if check_install( module => 'CPANPLUS::Dist::YACSmoke' );

@@ -1,15 +1,12 @@
 package CPANPLUS::Internals::Source::CPANMetaDB::HTTP;
 
+#ABSTRACT: Lightweight HTTP implementation
+
 use 5.005;
 use strict;
 use Socket 1.3;
 use Fcntl;
 use Errno qw(EAGAIN);
-
-use vars qw($VERSION);
-BEGIN {
-	$VERSION = "0.02";
-}
 
 my $BLOCKSIZE = 65536;
 my $CRLF = "\r\n";
@@ -107,7 +104,7 @@ sub reset
   }
   $self->{HTTPReadBuffer} = "";
   $self->{method} = "GET";
-  $self->{headers} = { 'user-agent' => "HTTP::Lite/$VERSION" };
+  $self->{headers} = { 'user-agent' => "HTTP::Lite/$CPANPLUS::Internals::Source::CPANMetaDB::HTTP::VERSION" };
   $self->{headermap} = { 'user-agent'  => 'User-Agent' };
 }
 
@@ -753,15 +750,26 @@ sub upper
   }
 }
 
+=begin Pod::Coverage
+
+       DEBUG
+       add_to_body
+       enum_req_headers
+       escape
+       header_at_once
+       http_read
+       http_readbytes
+       http_readline
+       http_write
+       initialize
+       upper
+
+=end Pod::Coverage
+
 1;
 
-__END__
 
 =pod
-
-=head1 NAME
-
-HTTP::Lite - Lightweight HTTP implementation
 
 =head1 SYNOPSIS
 

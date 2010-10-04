@@ -1,5 +1,7 @@
 package CPANPLUS::Internals::Source::CPANMetaDB;
 
+#ABSTRACT: CPAN Meta DB source implementation
+
 use strict;
 use warnings;
 
@@ -14,10 +16,6 @@ use Locale::Maketext::Simple    Class => 'CPANPLUS', Style => 'gettext';
 use Module::Load::Conditional   qw[check_install];
 
 use constant CPANMETADB => 'http://cpanmetadb.appspot.com/';
-
-use vars qw($VERSION);
-
-$VERSION = '0.02';
 
 {
     my $cpanmetadb = $ENV{PERL5_CPANMETADB_URL} || CPANMETADB;
@@ -163,11 +161,7 @@ $VERSION = '0.02';
 
 1;
 
-__END__
-
-=head1 NAME 
-
-CPANPLUS::Internals::Source::CPANMetaDB - CPAN Meta DB source implementation
+=pod
 
 =head1 SYNOPSIS
 
@@ -224,19 +218,9 @@ as CPAN ID is valid.
 
 If this is a problem have a look at L<CPANPLUS::Internals::Source::CPANIDX> instead.
 
-=head1 AUTHOR
-
-Chris C<BinGOs> Williams <chris@bingosnet.co.uk>
-
-Jos Boumans <kane@cpan.org>
+=head1 KUDOS
 
 CPAN Meta DB was created by Tatsuhiko Miyagawa for L<App::cpanminus>
-
-=head1 LICENSE
-
-Copyright E<copy> Chris Williams and Jos Boumans
-
-This module may be used, modified, and distributed under the same terms as Perl itself. Please see the license that came with your Perl distribution for details.
 
 =head1 SEE ALSO
 
