@@ -15,7 +15,7 @@ use Params::Check               qw[allow check];
 use Locale::Maketext::Simple    Class => 'CPANPLUS', Style => 'gettext';
 use Module::Load::Conditional   qw[check_install];
 
-use constant CPANMETADB => 'http://cpanmetadb.appspot.com/';
+use constant CPANMETADB => 'http://cpanmetadb.plackperl.org/';
 
 {
     my $cpanmetadb = $ENV{PERL5_CPANMETADB_URL} || CPANMETADB;
